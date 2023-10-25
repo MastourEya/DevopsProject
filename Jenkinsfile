@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo "Getting Project from GIT";
                 script {
                     def gitUrl = 'https://github.com/MastourEya/DevopsProject.git'
                     def branchName = 'master' // Spécifiez la branche que vous souhaitez
