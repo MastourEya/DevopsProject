@@ -9,7 +9,6 @@ pipeline {
                     def branchName = 'master' // Spécifiez la branche que vous souhaitez
                     def gitCredentialsId = 'noreply' // Remplacez par l'ID de vos identifiants Git dans Jenkins
 
-
                     // Utilisez la commande checkout avec des paramètres
                     checkout([$class: 'GitSCM',
                         branches: [[name: branchName]],
@@ -19,6 +18,6 @@ pipeline {
                     ])
                 }
             }
-
+        }
     }
 }
