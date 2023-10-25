@@ -25,8 +25,13 @@ pipeline {
             }
         }
 
-        // Ajoutez d'autres étapes de votre pipeline ici
-
+ stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('Nom-de-votre-environnement-SonarQube') {
+                    sh 'mvn sonar:sonar -Dsonar.login=eya'
+                }
+            }
+        }
     }
 
     // Définition des post-actions, notifications, etc.
