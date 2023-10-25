@@ -29,7 +29,7 @@ stage('SonarQube Analysis') {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube-10.2.1') {
-                sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=eya"
+                sh "mvn sonar:sonar -Dsonar.token=7f7034f62628a92d0e0fb2809cbe88744b1dc404059498cde58d9ff48f4ba6e1"
                     }
                 }
             }
