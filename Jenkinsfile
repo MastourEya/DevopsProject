@@ -21,7 +21,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile' // Exécute les commandes Maven clean et compile
+                sh 'mvn clean compile' 
             }
         }
 
@@ -36,5 +36,4 @@ stage('SonarQube Analysis') {
         }
     }
 
-    // Définition des post-actions, notifications, etc.
 }
