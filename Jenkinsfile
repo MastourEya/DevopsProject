@@ -1,16 +1,14 @@
 pipeline {
     agent any
- 
+
     stages {
         stage('Checkout') {
             steps {
-                echo "Getting Project from GIT";
                 script {
                     def gitUrl = 'https://github.com/MastourEya/DevopsProject.git'
-                    def branchName = 'master' // Spécifiez la branche que vous souhaitez
-                    def gitCredentialsId = 'noreply' // Remplacez par l'ID de vos identifiants Git dans Jenkins
+                    def branchName = 'master'
+                    def gitCredentialsId = 'noreply'
 
-                    // Utilisez la commande checkout avec des paramètres
                     checkout([$class: 'GitSCM',
                         branches: [[name: branchName]],
                         doGenerateSubmoduleConfigurations: false,
@@ -20,5 +18,16 @@ pipeline {
                 }
             }
         }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile' // Exécute les commandes Maven clean et compile
+            }
+        }
+
+        // Ajoutez d'autres étapes de votre pipeline ici
+
     }
+
+    // Définition des post-actions, notifications, etc.
 }
