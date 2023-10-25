@@ -25,10 +25,12 @@ pipeline {
             }
         }
 
- stage('SonarQube Analysis') {
+stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('Nom-de-votre-environnement-SonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.login=eya'
+                script {
+                    withSonarQubeEnv('sonarqube') {
+                        sh "mvn sonar:sonar -Dsonar.login=7f7034f62628a92d0e0fb2809cbe88744b1dc404059498cde58d9ff48f4ba6e1"
+                    }
                 }
             }
         }
