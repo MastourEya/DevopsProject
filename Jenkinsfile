@@ -46,7 +46,6 @@ pipeline {
                 }
                 // Now you can run 'npm install' and 'ng build'
                 sh 'npm install -g @angular/cli'
-                sh'ng update @angular/core'
                 sh 'ng build'
             }
         }
