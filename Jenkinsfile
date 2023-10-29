@@ -44,6 +44,7 @@ pipeline {
                     env.PATH = "${nodeJSHome}/bin:${env.PATH}"
                 }
                 // Now you can run 'npm install' and 'ng build'
+                sh 'npm cache clean --force'
                 sh 'npm install --force'
                 sh 'npm run ng build'
             }
