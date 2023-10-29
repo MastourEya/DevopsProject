@@ -36,15 +36,16 @@ pipeline {
                 }
             }
         }
-
-        stage('Node.js and Angular Setup') {
+stage('Build Frontend') {
             steps {
+                // Set the Node.js tool defined in Jenkins configuration
                 script {
-                    sh 'npm install -g @angular/cli'
-                    sh 'npm update'
-                    sh 'ngcc --clear'
-                    sh 'ng build'
+                    def nodeJSHome = tool name: 'node' // Use the correct tool name
+                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
                 }
+                // Now you can run 'npm install' and 'ng build'
+                sh 'npm install'
+                sh 'npm run ng build'
             }
         }
 
