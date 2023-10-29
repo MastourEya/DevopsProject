@@ -36,7 +36,7 @@ pipeline {
                          }
                      }
                  }
-        node {
+         
     stage('Install Node.js') {
         sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash'
         sh 'source ~/.nvm/nvm.sh'
@@ -58,7 +58,7 @@ pipeline {
     stage('Build Angular Project') {
         sh 'ng build'
     }
-        }
+        
 
 
 
