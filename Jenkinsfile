@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        // Define the tool locations for Node.js and npm
+        NODEJS_HOME = tool name: 'node'
+        PATH = "${env.NODEJS_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout Main Project') {
             steps {
@@ -36,12 +42,7 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                script {
-                    def nodeJSHome = tool name: 'node'
-                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-                }
                 sh 'npm install'
-                sh 'npm install cli-spinners'
                 sh 'npm run build'
             }
         }
