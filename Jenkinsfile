@@ -40,8 +40,6 @@ pipeline {
         stage('Node.js and Angular Setup') {
             steps {
                 script {
-                    sh 'nvm install --lts'
-                    sh 'nvm use --lts'
                     sh 'npm install -g @angular/cli'
                     sh 'npm update'
                     sh 'ngcc --clear'
