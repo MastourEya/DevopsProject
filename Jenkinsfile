@@ -37,17 +37,17 @@ pipeline {
             }
         }
 stage('Build Frontend') {
-            steps {
-                // Set the Node.js tool defined in Jenkins configuration
-                script {
-                    def nodeJSHome = tool name: 'node' // Use the correct tool name
-                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-                }
-                // Now you can run 'npm install' and 'ng build'
-                sh 'npm install'
-                sh 'npm run ng build'
-            }
+    steps {
+        // Set the Node.js tool defined in Jenkins configuration
+        script {
+            def nodeJSHome = tool name: 'node' // Use the correct tool name
+            env.PATH = "${nodeJSHome}/bin:${env.PATH}"
         }
+        // Now you can run 'npm install' and 'ng build'
+        sh 'npm install'
+        sh 'ng build'
+    }
+}
 
         stage('SonarQube Analysis') {
             steps {
