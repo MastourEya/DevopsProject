@@ -62,6 +62,11 @@ pipeline {
                 }
 
                 stage('Build Frontend') {
+                     // Set the Node.js tool defined in Jenkins configuration
+        script {
+            def nodeJSHome = tool name: 'node' // Use the correct tool name
+            env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+        }
                     steps {
                         sh 'npm install'
                         sh 'npm run ng build'
