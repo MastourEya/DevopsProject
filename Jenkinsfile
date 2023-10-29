@@ -25,32 +25,25 @@ pipeline {
             }
         }
 
-        stage('Checkout Frontend Project') {
-            steps {
-                script {
-                    def gitUrl = 'https://github.com/MastourEya/ProjetDevops-Angular'
-                    def branchName = 'master'
-                    def gitCredentialsId = 'noreply'
+                 stage('Checkout Frontend Repo') {
+                     steps {
+                        script {
+                            checkout([
+                              $class: 'GitSCM',
+                                 branches: [[name: 'master']],
+                                 userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+                             ])
+                         }
+                     }
+                 }
 
-                    checkout([$class: 'GitSCM',
-                        branches: [[name: branchName]],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [[$class: 'CloneOption', depth: 1, noTags: true, reference: '', shallow: true]],
-                        userRemoteConfigs: [[url: gitUrl, credentialsId: gitCredentialsId]]
-                    ])
-                }
-            }
-        }
+                 stage('Build Frontend') {
+                     steps {
+                         sh 'npm install'
+                         sh 'npm run ng build'
+                     }
+             }
 
-        stage('Build Frontend') {
-            steps {
-                script {
-                    dir('path-to-frontend-project') {
-                        sh 'npm install'
-                        sh 'ng build'
-                    }
-                }
-            }
         }
 
         stage('SonarQube Analysis') {
