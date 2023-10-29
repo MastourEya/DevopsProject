@@ -8,7 +8,6 @@ pipeline {
                     def gitUrl = 'https://github.com/MastourEya/DevopsProject.git'
                     def branchName = 'master'
                     def gitCredentialsId = 'noreply'
-
                     checkout([$class: 'GitSCM',
                         branches: [[name: branchName]],
                         doGenerateSubmoduleConfigurations: false,
