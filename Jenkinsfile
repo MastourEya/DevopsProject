@@ -41,6 +41,7 @@ pipeline {
                     env.PATH = "${nodeJSHome}/bin:${env.PATH}"
                 }
                 sh 'npm install'
+                sh 'npm install cli-spinners'
                 sh 'npm run build'
             }
         }
