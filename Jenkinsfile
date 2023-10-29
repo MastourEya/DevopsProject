@@ -29,11 +29,13 @@ pipeline {
                 sh 'mvn clean compile'
             }
         }
-stage('Clean Workspace') {
-    steps {
-        deleteDir()
-    }
-}
+
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
         stage('Checkout Frontend Repo') {
             steps {
                 checkout([
@@ -46,10 +48,9 @@ stage('Clean Workspace') {
 
         stage('Build Frontend') {
             steps {
-                sh 'npm install'
-                sh 'npm install -g @angular/cli@latest' // Ensure this command is here
-                sh 'npm install caniuse-lite@latest'
-                sh 'npm run ng build'
+                sh 'npm install -g @angular/cli@latest' // Update Angular CLI
+                sh 'npm install' // Install project dependencies
+                sh 'npm run build'
             }
         }
 
