@@ -24,30 +24,50 @@ pipeline {
             }
         }
 
-        stage('Checkout Frontend Repo') {
-            steps {
-                script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: 'main']],
-                        userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-                    ])
-                    sh 'git stash'
+        // stage('Checkout Frontend Repo') {
+        //     steps {
+        //         script {
+        //             checkout([
+        //                 $class: 'GitSCM',
+        //                 branches: [[name: 'main']],
+        //                 userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+        //             ])
+        //             sh 'git stash'
+        //         }
+        //     }
+        // }
+// stage('Build Frontend') {
+//     steps {
+//         // Set the Node.js tool defined in Jenkins configuration
+//         script {
+//             def nodeJSHome = tool name: 'node' // Use the correct tool name
+//             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+//         }
+//         // Now you can run 'npm install' and 'ng build'
+//         sh 'npm install'
+//         sh 'ng build'
+//     }
+// }
+
+        ************************************* BUILD FRONTEND - ANGULAR ***************************
+                stage('Checkout Frontend Repo') {
+                    steps {
+                        script {
+                            checkout([
+                                $class: 'GitSCM',
+                                branches: [[name: 'main']],
+                                userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+                            ])
+                        }
+                    }
                 }
-            }
-        }
-stage('Build Frontend') {
-    steps {
-        // Set the Node.js tool defined in Jenkins configuration
-        script {
-            def nodeJSHome = tool name: 'node' // Use the correct tool name
-            env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-        }
-        // Now you can run 'npm install' and 'ng build'
-        sh 'npm install'
-        sh 'ng build'
-    }
-}
+
+                stage('Build Frontend') {
+                    steps {
+                        sh 'npm install'
+                        sh 'npm run ng build'
+                    }
+                }
 
         stage('SonarQube Analysis') {
             steps {
