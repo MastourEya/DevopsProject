@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Checkout Main Project') {
             steps {
                 script {
                     def gitUrl = 'https://github.com/MastourEya/DevopsProject.git'
@@ -19,12 +19,13 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Main Project') {
             steps {
-                sh 'mvn clean compile' 
+                sh 'mvn clean compile'
             }
         }
-stage('Checkout Front') {
+
+        stage('Checkout Frontend Project') {
             steps {
                 script {
                     def gitUrl = 'https://github.com/MastourEya/ProjetDevops-Angular'
@@ -40,24 +41,26 @@ stage('Checkout Front') {
                 }
             }
         }
+
         stage('Build Frontend') {
             steps {
                 script {
-                    // Remplacez ces commandes par celles nécessaires pour construire votre projet Angular
-                    sh 'npm install'  // Exemple : installer les dépendances
-                    sh 'ng build '  // Exemple : construire le projet Angular en mode production
+                    dir('path-to-frontend-project') {
+                        sh 'npm install'
+                        sh 'ng build'
+                    }
                 }
             }
         }
-stage('SonarQube Analysis') {
+
+        stage('SonarQube Analysis') {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube-10.2.1') {
-                sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=eya"
+                        sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=eya"
                     }
                 }
             }
         }
     }
-
 }
