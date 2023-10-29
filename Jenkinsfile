@@ -49,7 +49,6 @@ pipeline {
 //     }
 // }
 
-        ************************************* BUILD FRONTEND - ANGULAR ***************************
                 stage('Checkout Frontend Repo') {
                     steps {
                         script {
