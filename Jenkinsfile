@@ -47,7 +47,8 @@ stage('Clean Workspace') {
         stage('Build Frontend') {
             steps {
                 sh 'npm install'
-                sh 'npm install cli-spinners' // Ensure this command is here
+                sh 'npm install -g @angular/cli@latest' // Ensure this command is here
+                sh 'npm install caniuse-lite@latest'
                 sh 'npm run ng build'
             }
         }
