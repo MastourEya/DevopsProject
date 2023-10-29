@@ -40,8 +40,6 @@ pipeline {
         stage('Node.js and Angular Setup') {
             steps {
                 script {
-                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash'
-                    sh 'source ~/.nvm/nvm.sh'
                     sh 'nvm install --lts'
                     sh 'nvm use --lts'
                     sh 'npm install -g @angular/cli'
