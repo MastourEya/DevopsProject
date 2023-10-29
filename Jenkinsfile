@@ -32,6 +32,7 @@ pipeline {
                                  branches: [[name: 'master']],
                                  userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
                              ])
+                            sh'git stash'
                          }
                      }
                  }
