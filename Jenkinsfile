@@ -36,20 +36,30 @@ pipeline {
                          }
                      }
                  }
+        node {
+    stage('Install Node.js') {
+        sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash'
+        sh 'source ~/.nvm/nvm.sh'
+        sh 'nvm install --lts'
+        sh 'nvm use --lts'
+    }
+            stage('Update Angular CLI') {
+        sh 'npm install -g @angular/cli'
+    }
 
-                 stage('Build Frontend') {
-            steps {
-                // Set the Node.js tool defined in Jenkins configuration
-                script {
-                    def nodeJSHome = tool name: 'node' // Use the correct tool name
-                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-                }
-                // Now you can run 'npm install' and 'ng build'
-                sh 'npm install -g @angular/cli'
-                sh'ngcc --clear'
-                sh 'ng build'
-            }
+    stage('Update Project Dependencies') {
+        sh 'npm update'
+    }
+
+    stage('Clear Angular CLI Cache') {
+        sh 'ngcc --clear'
+    }
+
+    stage('Build Angular Project') {
+        sh 'ng build'
+    }
         }
+
 
 
         
