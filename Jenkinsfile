@@ -43,6 +43,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 sh 'npm install'
+                sh 'npm install cli-spinners' // Ensure this command is here
                 sh 'npm run ng build'
             }
         }
