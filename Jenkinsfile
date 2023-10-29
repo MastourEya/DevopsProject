@@ -24,45 +24,33 @@ pipeline {
             }
         }
 
-                 stage('Checkout Frontend Repo') {
-                     steps {
-                        script {
-                            checkout([
-                              $class: 'GitSCM',
-                                 branches: [[name: 'main']],
-                                 userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-                             ])
-                            sh'git stash'
-                         }
-                     }
-                 }
-         
-    stage('Install Node.js') {
-        sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash'
-        sh 'source ~/.nvm/nvm.sh'
-        sh 'nvm install --lts'
-        sh 'nvm use --lts'
-    }
-            stage('Update Angular CLI') {
-        sh 'npm install -g @angular/cli'
-    }
+        stage('Checkout Frontend Repo') {
+            steps {
+                script {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'main']],
+                        userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+                    ])
+                    sh 'git stash'
+                }
+            }
+        }
 
-    stage('Update Project Dependencies') {
-        sh 'npm update'
-    }
-
-    stage('Clear Angular CLI Cache') {
-        sh 'ngcc --clear'
-    }
-
-    stage('Build Angular Project') {
-        sh 'ng build'
-    }
-        
-
-
-
-        
+        stage('Node.js and Angular Setup') {
+            steps {
+                script {
+                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash'
+                    sh 'source ~/.nvm/nvm.sh'
+                    sh 'nvm install --lts'
+                    sh 'nvm use --lts'
+                    sh 'npm install -g @angular/cli'
+                    sh 'npm update'
+                    sh 'ngcc --clear'
+                    sh 'ng build'
+                }
+            }
+        }
 
         stage('SonarQube Analysis') {
             steps {
