@@ -29,7 +29,11 @@ pipeline {
                 sh 'mvn clean compile'
             }
         }
-
+stage('Clean Workspace') {
+    steps {
+        deleteDir()
+    }
+}
         stage('Checkout Frontend Repo') {
             steps {
                 checkout([
