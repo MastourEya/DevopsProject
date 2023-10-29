@@ -62,6 +62,7 @@ pipeline {
                 }
 
                 stage('Build Frontend') {
+                       steps {
                      // Set the Node.js tool defined in Jenkins configuration
         script {
             def nodeJSHome = tool name: 'node' // Use the correct tool name
@@ -71,6 +72,7 @@ pipeline {
                         sh 'npm install'
                         sh 'npm run ng build'
                     }
+                       }
                 }
 
         stage('SonarQube Analysis') {
