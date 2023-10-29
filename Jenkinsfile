@@ -50,7 +50,7 @@ pipeline {
             steps {
                 // Set the Node.js tool defined in Jenkins configuration
                 script {
-                    def nodeJSHome = tool name: 'nodejs' // Use the correct tool name
+                    def nodeJSHome = tool name: 'node' // Use the correct tool name
                     env.PATH = "${nodeJSHome}/bin:${env.PATH}"
                 }
                 // Now you can run 'npm install' and 'ng build'
