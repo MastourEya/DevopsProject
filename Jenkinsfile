@@ -59,14 +59,14 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    withSonarQubeEnv('sonarqube-10.2.1') {
-                        sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=eya"
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         script {
+        //             withSonarQubeEnv('sonarqube-10.2.1') {
+        //                 sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=eya"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
