@@ -30,6 +30,15 @@ pipeline {
             }
         }
 
+        stage('BUILD Backend') {
+            steps {
+                // Use Java 8 for this stage
+                withEnv(["JAVA_HOME=${tool name: 'JAVA_8_HOME', type: 'jdk'}"]) {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
         stage('Clean Workspace') {
             steps {
                 deleteDir()
