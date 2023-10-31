@@ -37,6 +37,23 @@ pipeline {
                 }
             }
         }
+
+
+
+        stage('Run Docker Compose') {
+    steps {
+        script {
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: '*/master']], 
+                userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject']]
+            ])
+
+            // Run the docker-compose command
+            sh 'docker compose up -d' 
+        }
+    }
+}
         //    stage('COMPILE Backend') {
         //     steps {
         //         // Use the default Java 8 for this stage
@@ -44,28 +61,28 @@ pipeline {
         //     }
         // }
         
- stage('Build and Push back Images') {
-            steps {
-                script {
-                    // Checkout your Git repository for the backend code here
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/master']],
-                        userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject.git']]
-                    ])
+ // stage('Build and Push back Images') {
+ //            steps {
+ //                script {
+ //                    // Checkout your Git repository for the backend code here
+ //                    checkout([
+ //                        $class: 'GitSCM',
+ //                        branches: [[name: '*/master']],
+ //                        userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject.git']]
+ //                    ])
 
-                    // Build the backend Docker image
-                    def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/ProjetSpring/Dockerfile .')
-                    // Authenticate with Docker Hub using secret credentials
-                    withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
-                        sh "docker login -u eyamastour -p 123456789"
-                            // sh "docker login -u eyamastour -p ${pwd}"
-                        // Push the Docker image
-                        backendImage.push()
-                    }
-                }
-            }
-        }
+ //                    // Build the backend Docker image
+ //                    def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/ProjetSpring/Dockerfile .')
+ //                    // Authenticate with Docker Hub using secret credentials
+ //                    withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
+ //                        sh "docker login -u eyamastour -p 123456789"
+ //                            // sh "docker login -u eyamastour -p ${pwd}"
+ //                        // Push the Docker image
+ //                        backendImage.push()
+ //                    }
+ //                }
+ //            }
+ //        }
 
         // stage('Clean Workspace') {
         //     steps {
