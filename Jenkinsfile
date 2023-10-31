@@ -59,7 +59,7 @@ pipeline {
 
                     // Authenticate with Docker Hub using secret credentials
                     withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
-                        sh "docker login -u eyamastour -p ${pwd}"
+                            sh "docker login -u eyamastour -p ${pwd}"
                         // Push the Docker image
                         backendImage.push()
                     }
@@ -67,34 +67,34 @@ pipeline {
             }
         }
 
-        stage('Clean Workspace') {
-            steps {
-                deleteDir()
-            }
-        }
+        // stage('Clean Workspace') {
+        //     steps {
+        //         deleteDir()
+        //     }
+        // }
 
-        stage('Checkout Frontend Repo') {
-            steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: 'master']],
-                    userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-                ])
-            }
-        }
+        // stage('Checkout Frontend Repo') {
+        //     steps {
+        //         checkout([
+        //             $class: 'GitSCM',
+        //             branches: [[name: 'master']],
+        //             userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+        //         ])
+        //     }
+        // }
 
-        stage('Build Frontend') {
-            steps {
-                // Set the Node.js tool defined in Jenkins configuration
-                script {
-                    def nodeJSHome = tool name: 'node' // Use the correct tool name
-                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-                }
-                // Now you can run 'npm install' and 'ng build'
-                sh 'npm install --legacy-peer-deps'
-                sh 'npm run ng build'
-            }
-        }
+        // stage('Build Frontend') {
+        //     steps {
+        //         // Set the Node.js tool defined in Jenkins configuration
+        //         script {
+        //             def nodeJSHome = tool name: 'node' // Use the correct tool name
+        //             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+        //         }
+        //         // Now you can run 'npm install' and 'ng build'
+        //         sh 'npm install --legacy-peer-deps'
+        //         sh 'npm run ng build'
+        //     }
+        // }
 
 
 
