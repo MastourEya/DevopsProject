@@ -43,11 +43,11 @@ pipeline {
         //         sh 'mvn compile'
         //     }
         // }
-
-        stage('Build and Push back Images') {
+        
+ stage('Build and Push back Images') {
             steps {
                 script {
-                    // Ajoutez l'étape Git checkout pour le référentiel backend ici
+                    // Checkout your Git repository for the backend code here
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: '*/master']],
@@ -57,10 +57,10 @@ pipeline {
                     // Build the backend Docker image
                     def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/ProjetSpring/Dockerfile .')
 
-                    // Authentification Docker Hub avec des informations d'identification secrètes
+                    // Authenticate with Docker Hub using secret credentials
                     withCredentials([string(credentialsId: 'docker-hub', variable: 'pwd')]) {
                         sh "docker login -u eyamastour -p ${pwd}"
-                        // Poussez l'image Docker
+                        // Push the Docker image
                         backendImage.push()
                     }
                 }
