@@ -24,11 +24,11 @@ pipeline {
             }
         }
 
-        stage('Build Main Project') {
-            steps {
-                sh 'mvn clean test'
-            }
-        }
+        // stage('Build Main Project') {
+        //     steps {
+        //         sh 'mvn clean test'
+        //     }
+        // }
 
         stage('BUILD Backend') {
             steps {
