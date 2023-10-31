@@ -26,7 +26,7 @@ pipeline {
 
         stage('Build Main Project') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn clean test'
             }
         }
 
