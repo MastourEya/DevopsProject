@@ -24,34 +24,34 @@ pipeline {
             }
         }
 
-        // stage('Build Main Project') {
-        //     steps {
-        //         sh 'mvn clean test'
-        //     }
-        // }
+        stage('Build Main Project') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
 
-        // stage('Build and Push back Images') {
-        //     steps {
-        //         script {
-        //             // Ajoutez l'étape Git checkout pour le référentiel backend ici
-        //             checkout([
-        //                 $class: 'GitSCM',
-        //                 branches: [[name: '*/master']],
-        //                 userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject.git']]
-        //             ])
+        stage('Build and Push back Images') {
+            steps {
+                script {
+                    // Ajoutez l'étape Git checkout pour le référentiel backend ici
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject.git']]
+                    ])
 
-        //             // Build the backend Docker image
-        //             def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/Project-devops/Dockerfile .')
+                    // Build the backend Docker image
+                    def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/ProjetSpring/Dockerfile .')
 
-        //             // Authentification Docker Hub avec des informations d'identification secrètes
-        //             withCredentials([string(credentialsId: 'docker-hub', variable: 'pwd')]) {
-        //                 sh "docker login -u eyamastour -p ${pwd}"
-        //                 // Poussez l'image Docker
-        //                 backendImage.push()
-        //             }
-        //         }
-        //     }
-        // }
+                    // Authentification Docker Hub avec des informations d'identification secrètes
+                    withCredentials([string(credentialsId: 'docker-hub', variable: 'pwd')]) {
+                        sh "docker login -u eyamastour -p ${pwd}"
+                        // Poussez l'image Docker
+                        backendImage.push()
+                    }
+                }
+            }
+        }
 
         // stage('Clean Workspace') {
         //     steps {
