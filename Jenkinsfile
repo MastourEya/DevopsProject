@@ -138,7 +138,7 @@ pipeline {
             ])
             
             // Authenticate with Docker Hub using credentials
-            withCredentials([string(credentialsId: 'Docker', variable: 'pwd')]) {
+            withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
                 sh "docker login -u eyamastour -p 123456789"
             }
             
