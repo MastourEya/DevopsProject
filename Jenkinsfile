@@ -24,11 +24,25 @@ pipeline {
             }
         }
 
-        stage('Build Main Project') {
+        // stage('Build Main Project') {
+        //     steps {
+        //         sh 'mvn clean test'
+        //     }
+        // }
+        stage('BUILD Backend') {
             steps {
-                sh 'mvn clean test'
+                // Use Java 8 for this stage
+                withEnv(["JAVA_HOME=${tool name: 'JAVA_8_HOME', type: 'jdk'}"]) {
+                    sh 'mvn clean install'
+                }
             }
         }
+        //    stage('COMPILE Backend') {
+        //     steps {
+        //         // Use the default Java 8 for this stage
+        //         sh 'mvn compile'
+        //     }
+        // }
 
         stage('Build and Push back Images') {
             steps {
@@ -53,34 +67,34 @@ pipeline {
             }
         }
 
-        // stage('Clean Workspace') {
-        //     steps {
-        //         deleteDir()
-        //     }
-        // }
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
 
-        // stage('Checkout Frontend Repo') {
-        //     steps {
-        //         checkout([
-        //             $class: 'GitSCM',
-        //             branches: [[name: 'master']],
-        //             userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-        //         ])
-        //     }
-        // }
+        stage('Checkout Frontend Repo') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'master']],
+                    userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+                ])
+            }
+        }
 
-        // stage('Build Frontend') {
-        //     steps {
-        //         // Set the Node.js tool defined in Jenkins configuration
-        //         script {
-        //             def nodeJSHome = tool name: 'node' // Use the correct tool name
-        //             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-        //         }
-        //         // Now you can run 'npm install' and 'ng build'
-        //         sh 'npm install --legacy-peer-deps'
-        //         sh 'npm run ng build'
-        //     }
-        // }
+        stage('Build Frontend') {
+            steps {
+                // Set the Node.js tool defined in Jenkins configuration
+                script {
+                    def nodeJSHome = tool name: 'node' // Use the correct tool name
+                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+                }
+                // Now you can run 'npm install' and 'ng build'
+                sh 'npm install --legacy-peer-deps'
+                sh 'npm run ng build'
+            }
+        }
 
 
 
