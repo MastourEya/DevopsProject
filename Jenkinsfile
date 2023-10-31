@@ -24,9 +24,18 @@ pipeline {
             }
         }
 
-        stage('Build Main Project') {
+        // stage('Build Main Project') {
+        //     steps {
+        //         sh 'mvn clean test'
+        //     }
+        // }
+
+        stage('BUILD Backend') {
             steps {
-                sh 'mvn clean test'
+                // Use Java 8 for this stage
+                withEnv(["JAVA_HOME=${tool name: 'JAVA_8_HOME', type: 'jdk'}"]) {
+                    sh 'mvn clean install'
+                }
             }
         }
 
