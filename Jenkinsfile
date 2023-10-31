@@ -68,6 +68,18 @@ pipeline {
             }
         }
 
+
+
+         stages {
+        stage('Build Backend Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image for the Spring Boot backend
+                    sh 'docker build -t SpringApp:latest -f https://github.com/MastourEya/DevopsProject/blob/master/Dockerfile .'
+                }
+            }
+        }
+
         // stage('SonarQube Analysis') {
         //     steps {
         //         script {
