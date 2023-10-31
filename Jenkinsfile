@@ -54,7 +54,7 @@ pipeline {
                     env.PATH = "${nodeJSHome}/bin:${env.PATH}"
                 }
                 // Now you can run 'npm install' and 'ng build'
-                sh 'npm ci'
+                sh 'npm install --legacy-peer-deps'
                 sh 'npm run ng build'
             }
         }
