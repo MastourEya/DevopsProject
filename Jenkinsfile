@@ -30,54 +30,61 @@ pipeline {
         //     }
         // }
 
-        stage('BUILD Backend') {
-            steps {
-                // Use Java 8 for this stage
-                withEnv(["JAVA_HOME=${tool name: 'JAVA_8_HOME', type: 'jdk'}"]) {
-                    sh 'mvn clean install'
-                }
-            }
-        }
+        // stage('Build and Push back Images') {
+        //     steps {
+        //         script {
+        //             // Ajoutez l'étape Git checkout pour le référentiel backend ici
+        //             checkout([
+        //                 $class: 'GitSCM',
+        //                 branches: [[name: '*/master']],
+        //                 userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject.git']]
+        //             ])
 
-        stage('Clean Workspace') {
-            steps {
-                deleteDir()
-            }
-        }
+        //             // Build the backend Docker image
+        //             def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/Project-devops/Dockerfile .')
 
-        stage('Checkout Frontend Repo') {
-            steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: 'master']],
-                    userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-                ])
-            }
-        }
+        //             // Authentification Docker Hub avec des informations d'identification secrètes
+        //             withCredentials([string(credentialsId: 'docker-hub', variable: 'pwd')]) {
+        //                 sh "docker login -u eyamastour -p ${pwd}"
+        //                 // Poussez l'image Docker
+        //                 backendImage.push()
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('Build Frontend') {
-            steps {
-                // Set the Node.js tool defined in Jenkins configuration
-                script {
-                    def nodeJSHome = tool name: 'node' // Use the correct tool name
-                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-                }
-                // Now you can run 'npm install' and 'ng build'
-                sh 'npm install --legacy-peer-deps'
-                sh 'npm run ng build'
-            }
-        }
+        // stage('Clean Workspace') {
+        //     steps {
+        //         deleteDir()
+        //     }
+        // }
+
+        // stage('Checkout Frontend Repo') {
+        //     steps {
+        //         checkout([
+        //             $class: 'GitSCM',
+        //             branches: [[name: 'master']],
+        //             userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+        //         ])
+        //     }
+        // }
+
+        // stage('Build Frontend') {
+        //     steps {
+        //         // Set the Node.js tool defined in Jenkins configuration
+        //         script {
+        //             def nodeJSHome = tool name: 'node' // Use the correct tool name
+        //             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+        //         }
+        //         // Now you can run 'npm install' and 'ng build'
+        //         sh 'npm install --legacy-peer-deps'
+        //         sh 'npm run ng build'
+        //     }
+        // }
 
 
 
-        stage('Build Backend Docker Image') {
-            steps {
-                script {
-                    // Build the Docker image for the Spring Boot backend
-                    sh 'docker build -t SpringApp:latest -f https://github.com/MastourEya/DevopsProject/blob/master/Dockerfile .'
-                }
-            }
-        }
+  
 
         // stage('SonarQube Analysis') {
         //     steps {
