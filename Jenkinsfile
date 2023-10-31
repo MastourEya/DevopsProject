@@ -40,20 +40,20 @@ pipeline {
 
 
 
-        stage('Run Docker Compose') {
-    steps {
-        script {
-            checkout([
-                $class: 'GitSCM',
-                branches: [[name: '*/master']], 
-                userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject']]
-            ])
+//         stage('Run Docker Compose') {
+//     steps {
+//         script {
+//             checkout([
+//                 $class: 'GitSCM',
+//                 branches: [[name: '*/master']], 
+//                 userRemoteConfigs: [[url: 'https://github.com/MastourEya/DevopsProject']]
+//             ])
 
-            // Run the docker-compose command
-            sh 'docker compose up -d' 
-        }
-    }
-}
+//             // Run the docker-compose command
+//             sh 'docker compose up -d' 
+//         }
+//     }
+// }
         //    stage('COMPILE Backend') {
         //     steps {
         //         // Use the default Java 8 for this stage
@@ -90,28 +90,28 @@ pipeline {
         //     }
         // }
 
-        // stage('Checkout Frontend Repo') {
-        //     steps {
-        //         checkout([
-        //             $class: 'GitSCM',
-        //             branches: [[name: 'master']],
-        //             userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-        //         ])
-        //     }
-        // }
+        stage('Checkout Frontend Repo') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'master']],
+                    userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+                ])
+            }
+        }
 
-        // stage('Build Frontend') {
-        //     steps {
-        //         // Set the Node.js tool defined in Jenkins configuration
-        //         script {
-        //             def nodeJSHome = tool name: 'node' // Use the correct tool name
-        //             env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-        //         }
-        //         // Now you can run 'npm install' and 'ng build'
-        //         sh 'npm install --legacy-peer-deps'
-        //         sh 'npm run ng build'
-        //     }
-        // }
+        stage('Build Frontend') {
+            steps {
+                // Set the Node.js tool defined in Jenkins configuration
+                script {
+                    def nodeJSHome = tool name: 'node' // Use the correct tool name
+                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
+                }
+                // Now you can run 'npm install' and 'ng build'
+                sh 'npm install --legacy-peer-deps'
+                sh 'npm run ng build'
+            }
+        }
 
 
 
@@ -126,6 +126,31 @@ pipeline {
         //         }
         //     }
         // }
+
+    stage('Build and Push Frontend Image') {
+    steps {
+        script {
+            // Add the Git checkout step for the backend repository here
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: '*/main']],
+                userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+            ])
+            
+            // Authenticate with Docker Hub using credentials
+            withCredentials([string(credentialsId: 'Docker', variable: 'pwd')]) {
+                sh "docker login -u eyamastour -p 123456789"
+            }
+            
+            // Build the backend Docker image
+            def frontendImage = docker.build('eyamastour/devops:frontend', '-f Dockerfile .')
+            
+            // Push the Docker image
+            frontendImage.push()
+        }
+    }
+}
+
     }
 }
 
