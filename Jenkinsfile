@@ -58,7 +58,7 @@ pipeline {
                     def backendImage = docker.build('eyamastour/spring-app', '-f /var/lib/jenkins/workspace/ProjetSpring/Dockerfile .')
 
                     // Authenticate with Docker Hub using secret credentials
-                    withCredentials([string(credentialsId: 'docker-hub', variable: 'pwd')]) {
+                    withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
                         sh "docker login -u eyamastour -p ${pwd}"
                         // Push the Docker image
                         backendImage.push()
