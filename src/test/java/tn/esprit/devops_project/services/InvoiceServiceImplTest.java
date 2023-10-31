@@ -58,15 +58,15 @@ class InvoiceServiceImplTest {
         assertEquals(100.0, invoice.getAmountInvoice());
     }
 
-    @Test
-    @DatabaseSetup({ "/data-set/supplier-data.xml", "/data-set/invoice-data.xml" })
-    void getInvoicesBySupplier(Long id) {
+   // @Test
+    // @DatabaseSetup({ "/data-set/supplier-data.xml", "/data-set/invoice-data.xml" })
+     // void getInvoicesBySupplier(Long id) {
       /*  List<Invoice> invoices = invoiceService.getInvoicesBySupplier(1L);
         assertNotNull(invoices);
         assertEquals(invoices.size(), 1);
 */
 
-    }
+   // }
 
     @Test
     @DatabaseSetup({"/data-set/invoice-data.xml", "/data-set/operator-data.xml"})
