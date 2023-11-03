@@ -139,7 +139,7 @@ stage('Build and Push front Image') {
             ])
 
             // Build the front Docker image
-            def frontImage = docker.build('eyamastour/devopsbackend:front', '-f /var/lib/jenkins/workspace/Project-devops/Dockerfile .')
+            def frontImage = docker.build('eyamastour/devopsbackend:front', '-f /var/lib/jenkins/workspace/ProjetSpring/Dockerfile .')
 
             // Authenticate with Docker Hub using secret credentials
             withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
