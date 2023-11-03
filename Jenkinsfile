@@ -127,29 +127,29 @@ pipeline {
         //     }
         // }
 
-    stage('Build and Push Frontend Image') {
-    steps {
-        script {
-            // Add the Git checkout step for the backend repository here
-            checkout([
-                $class: 'GitSCM',
-                branches: [[name: '*/main']],
-                userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
-            ])
-            
-            // Authenticate with Docker Hub using credentials
-            withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
-                sh "docker login -u eyamastour -p 123456789"
+
+         stage('Build and Push front Image') {
+            steps {
+                script {
+                    // Ajoutez l'étape Git checkout pour le référentiel backend ici
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[url: 'https://github.com/MastourEya/ProjetDevops-Angular']]
+                    ])
+
+                    // Build the front Docker image
+                    def frontImage = docker.build('eyamastour/devopsbackend:front', '-f /var/lib/jenkins/workspace/Project-devops/Dockerfile .')
+
+                    // Authentification Docker Hub avec des informations d'identification secrètes
+                    withCredentials([string(credentialsId: 'docker', variable: 'pwd')]) {
+                        sh "docker login -u eyamastour -p 12345678"
+                        // Poussez l'image Docker
+                        frontImage.push()
+                    }
+                }
             }
-            
-            // Build the backend Docker image
-            def frontendImage = docker.build('eyamastour/devops:frontend', '-f Dockerfile .')
-            
-            // Push the Docker image
-            frontendImage.push()
         }
-    }
-}
 
     }
 }
